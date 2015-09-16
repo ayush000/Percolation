@@ -10,27 +10,24 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
     //    int[] grid;
-    int top,bottom;
+    int top, bottom;
     boolean[] isOpen;
     int N;
     WeightedQuickUnionUF unionUF;
-    public Percolation(int N)
-    {
 
-        if(N<=0)
-        {
+    public Percolation(int N) {
+
+        if (N <= 0) {
             throw new IllegalArgumentException("N can't be negative");
-        }
-        else {
+        } else {
             this.N = N;
             int size = N * N;
-            this.top=size;
-            this.bottom=size+1;
-            unionUF = new WeightedQuickUnionUF(size+2);
-            for(int i=1;i<=N;i++)
-            {
-                unionUF.union(getIndex(1,i),top);
-                unionUF.union(getIndex(N,i),bottom);
+            this.top = size;
+            this.bottom = size + 1;
+            unionUF = new WeightedQuickUnionUF(size + 2);
+            for (int i = 1; i <= N; i++) {
+                unionUF.union(getIndex(1, i), top);
+                unionUF.union(getIndex(N, i), bottom);
             }
 //            this.grid = new int[size];
 //
@@ -44,54 +41,42 @@ public class Percolation {
 
     public boolean isOpen(int i, int j)     // is site (row i, column j) open?
     {
-        if(i<1||i>N||j<1||j>N)
-        {
+        if (i < 1 || i > N || j < 1 || j > N) {
             throw new IndexOutOfBoundsException("row index out of bounds");
         }
-        return isOpen[getIndex(i,j)];
+        return isOpen[getIndex(i, j)];
     }
-    private int getIndex(int i, int j)
-    {
-        return this.N*(i-1)+j-1;
-    }
-    public void open(int i, int j)
-    {
 
-        if(i<1||i>N||j<1||j>N)
-        {
+    private int getIndex(int i, int j) {
+        return this.N * (i - 1) + j - 1;
+    }
+
+    public void open(int i, int j) {
+
+        if (i < 1 || i > N || j < 1 || j > N) {
             throw new IndexOutOfBoundsException("row index out of bounds");
-        }
-
-        else {
+        } else {
             int index = getIndex(i, j);
             if (!this.isOpen[index]) {
                 this.isOpen[index] = true;
-                if(i!=1)
-                {
-                    if(isOpen(i-1,j))
-                    {
-                        unionUF.union(index,getIndex(i-1,j));
+                if (i != 1) {
+                    if (isOpen(i - 1, j)) {
+                        unionUF.union(index, getIndex(i - 1, j));
                     }
                 }
-                if(i!=N)
-                {
-                    if(isOpen(i+1,j))
-                    {
-                        unionUF.union(index,getIndex(i+1,j));
+                if (i != N) {
+                    if (isOpen(i + 1, j)) {
+                        unionUF.union(index, getIndex(i + 1, j));
                     }
                 }
-                if (j!=1)
-                {
-                    if(isOpen(i,j-1))
-                    {
-                        unionUF.union(index,getIndex(i,j-1));
+                if (j != 1) {
+                    if (isOpen(i, j - 1)) {
+                        unionUF.union(index, getIndex(i, j - 1));
                     }
                 }
-                if(j!=N)
-                {
-                    if(isOpen(i,j+1))
-                    {
-                        unionUF.union(index,getIndex(i,j+1));
+                if (j != N) {
+                    if (isOpen(i, j + 1)) {
+                        unionUF.union(index, getIndex(i, j + 1));
                     }
                 }
 
@@ -104,25 +89,23 @@ public class Percolation {
 
     public boolean isFull(int i, int j)     // is site (row i, column j) full?
     {
-        if(i<1||i>N||j<1||j>N)
-        {
+        if (i < 1 || i > N || j < 1 || j > N) {
             throw new IndexOutOfBoundsException("row index out of bounds");
         }
-        return unionUF.connected(getIndex(i,j),top);
-    }
-    public boolean percolates()             // does the system percolate?
-    {
-        return unionUF.connected(top,bottom);
+        return unionUF.connected(getIndex(i, j), top);
     }
 
-    public static void main(String[] args)
+    public boolean percolates()             // does the system percolate?
     {
+        return unionUF.connected(top, bottom);
+    }
+
+    public static void main(String[] args) {
         Percolation p = new Percolation(5);
 //        System.out.println(p.isOpen(4,5));
 //
-        for(int i=1;i<=5;i++)
-        {
-            p.open(i,1);
+        for (int i = 1; i <= 5; i++) {
+            p.open(i, 1);
         }
 //        System.out.println(p.isOpen(4,5));
 //        System.out.println();

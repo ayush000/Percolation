@@ -6,23 +6,21 @@ import edu.princeton.cs.algs4.StdStats;
  */
 public class PercolationStats {
     double[] percolationThreshold;
-    public PercolationStats(int N, int T)
-    {
-        this.percolationThreshold=new double[T];
-        for(int index=0;index<T;index++)
-        {
-            int openCount=0;
-            Percolation p=new Percolation(N);
-            while (!p.percolates())
-            {
-                int i= StdRandom.uniform(1,N+1);
-                int j=StdRandom.uniform(1,N+1);
-                if(!p.isOpen(i,j)) {
+
+    public PercolationStats(int N, int T) {
+        this.percolationThreshold = new double[T];
+        for (int index = 0; index < T; index++) {
+            int openCount = 0;
+            Percolation p = new Percolation(N);
+            while (!p.percolates()) {
+                int i = StdRandom.uniform(1, N + 1);
+                int j = StdRandom.uniform(1, N + 1);
+                if (!p.isOpen(i, j)) {
                     p.open(i, j);
                     openCount++;
                 }
             }
-            percolationThreshold[index]=((double)openCount)/((double) N*N);
+            percolationThreshold[index] = ((double) openCount) / ((double) N * N);
 
         }
     }
@@ -37,24 +35,27 @@ public class PercolationStats {
 //        return sum/percolationThreshold.length;
         return StdStats.mean(percolationThreshold);
     }
+
     public double stddev()                    // sample standard deviation of percolation threshold
     {
         return StdStats.stddev(percolationThreshold);
     }
+
     public double confidenceLo()              // low  endpoint of 95% confidence interval
     {
-        return this.mean()-(1.96*this.stddev())/Math.sqrt((double)percolationThreshold.length);
+        return this.mean() - (1.96 * this.stddev()) / Math.sqrt((double) percolationThreshold.length);
     }
+
     public double confidenceHi()              // high endpoint of 95% confidence interval{
     {
-        return this.mean()+(1.96*this.stddev())/Math.sqrt((double)percolationThreshold.length);
+        return this.mean() + (1.96 * this.stddev()) / Math.sqrt((double) percolationThreshold.length);
     }
-    public static void main(String[] args)
-    {
-        PercolationStats ps=new PercolationStats(400,1000);
-        System.out.println("mean: "+ps.mean());
-        System.out.println("SD: "+ps.stddev());
-        System.out.println("95% confidence: "+ps.confidenceLo()+", "+ps.confidenceHi());
+
+    public static void main(String[] args) {
+        PercolationStats ps = new PercolationStats(400, 1000);
+        System.out.println("mean: " + ps.mean());
+        System.out.println("SD: " + ps.stddev());
+        System.out.println("95% confidence: " + ps.confidenceLo() + ", " + ps.confidenceHi());
 //        int x=3;
 //        int y=2;
 //        System.out.println((double)x/(double)y);
